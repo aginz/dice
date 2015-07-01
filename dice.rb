@@ -12,13 +12,12 @@ module Dice
     puts "Your Roll #{@roll_num}: #{@total_roll}"
   end
 
-  #If user wins, adds the bet to user's total money and diplays new total money.
+  #If user wins, adds the bet to user's total money and displays new total money.
   def win_point
     @total_money += @new_player_bet
     puts "\nYou won."
     puts "Your Money: $#{@total_money}"
     ask_bet
-
   end
 
   #Allows user to enter bet and proceed to first roll or exit game.  
@@ -104,7 +103,7 @@ module Dice
       next_roll
   end
 
-  #If user loses, subtracts the bet to user's total money and diplays new total money.
+  #If user loses, subtracts the bet to user's total money and displays new total money.
   def player_lose
     @total_money -= @new_player_bet
     puts "\nYou lose."
