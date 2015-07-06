@@ -26,8 +26,7 @@ module Dice
     if @total_money == 0
       exit_game
     else
-      puts "\nDo you want to bet?"
-      puts "If so, type the amount you would like to bet.  If not, type exit."
+      ask_bet_amount
       @new_player_bet = user_input
       while @new_player_bet > @total_money 
         puts "\nYou cannot bet that amount. You have $#{@total_money}. How much do you want to bet?"
@@ -37,17 +36,33 @@ module Dice
     end
   end
 
+  def ask_bet_amount
+    puts "\nDo you want to bet?"
+    puts "If so, type the amount you would like to bet.  If not, type exit."
+  end
+
   #Gets user input and requires user input to be an integer.
   def user_input
-    input = gets.chomp
-    if input.downcase == "exit"
-      exit_game
-    elsif input.to_i <= 0
-      puts "You cannot bet that amount or say that. Try again."
-      ask_bet unless @total_money.nil?
-      load_game
+    while true
+      input = gets.chomp
+
+      if input.downcase == "exit"
+        exit_game
+      elsif input.to_i <= 0 #if string or negative, prompts user.
+        invalid_input
+      else
+        return input.to_i
+      end
+    end
+  end
+
+  def invalid_input
+    puts "\nYou cannot bet that amount or say that. Try again."
+    sleep 1
+    if @total_money == nil || @total_money == 0
+      ask_total_money 
     else
-      input.to_i
+      ask_bet_amount
     end
   end
 
@@ -113,8 +128,13 @@ module Dice
 
   #Loads the game and allows user to set how much money they have to play with to start.
   def load_game
-    puts "\nHow much money do you have to play?"
+    @total_money = nil
+    ask_total_money
     @total_money = user_input
     ask_bet
+  end
+
+  def ask_total_money
+    puts "\nHow much money do you have to play?"
   end
 end
